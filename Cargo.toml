@@ -3,7 +3,7 @@ name = "confix-rs"
 version = "0.1.0"
 edition = "2021"
 description = "Standalone hermetic Rust port of TrikeShed's Confix parser (JSON/CBOR/YAML span scanner + canonical CBOR codec)"
-license = "MIT"
+license = "AGPL-3.0-only"
 
 [features]
 default = []
