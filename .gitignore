@@ -1,0 +1,37 @@
+
+
+
+
+.claude/
+.DS_Store
+.env
+.env.*
+.idea/
+.serena/
+.vscode/
+*.iml
+*.key
+*.local.toml
+*.pem
+*.profdata
+*.profraw
+*.rs.bk
+*.secret
+*.swo
+*.swp
+*.token
+*~
+*secret*
+*token*.json
+/target
+# Build/test artifacts
+# Editor/OS junk
+# Rust
+# scratch/local
+# Secrets — never commit
+Cargo.lock.orig
+credentials*.json
+keyring/
+miri.out
+rustfmt.out
+scratch/

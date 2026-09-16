@@ -1,0 +1,21 @@
+[package]
+name = "confix-rs"
+version = "0.1.0"
+edition = "2021"
+description = "Standalone hermetic Rust port of TrikeShed's Confix parser (JSON/CBOR/YAML span scanner + canonical CBOR codec)"
+license = "MIT"
+
+[features]
+default = []
+# serde_json-based JSON navigation (focus on parsed JSON documents).
+# serde/serde_json are permitted ONLY behind this flag, pinned to exact versions.
+json-cursor = ["dep:serde", "dep:serde_json"]
+# Canonical CBOR navigation on the std-only Item tree (no crates).
+cbor-cursor = []
+
+[dependencies]
+serde = { version = "=1", optional = true, default-features = false }
+serde_json = { version = "=1", optional = true, default-features = false, features = ["std"] }
+
+[profile.release]
+overflow-checks = true
