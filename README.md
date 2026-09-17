@@ -4,6 +4,16 @@ Standalone, hermetic Rust port of TrikeShed's **Confix** parser
 (`borg.trikeshed.parse.confix`), a byte-span document index for JSON, canonical
 CBOR, and YAML.
 
+## Token navigation (the mini-jq primitive)
+
+A path is a sequence of `Either<String, Int>` steps: key or position. The Rust
+representation is `PathStep::Key(String)` / `PathStep::Index(usize)`.
+[Navigation contract, source lineage, executable example, and parity limits](docs/navigation.md).
+This is token selection, not a jq expression parser. Path instability caused by
+one-time deterministic-CBOR canonicalization is **WONTFIX**: paths address the
+indexed representation; preserving coordinates across mutation is not CONFIX's
+responsibility. See the navigation contract for the boundary.
+
 ## Grammar (what Confix indexes)
 
 Confix is **not** a validating parser. It scans a byte source into *tokens* —
@@ -131,9 +141,9 @@ uses `core::PathStep::{Key(String), Index(usize)}`.
 ## Feature flags
 
 - **default**: std only. No crates. No unsafe. No I/O.
-- **`json-cursor`**: adds `serde =1` + `serde_json =1` (exact-pinned,
-  `default-features = false`, `std` feature on) and the `json_cursor` module —
-  `focus(&serde_json::Value, &[PathStep])` navigation.
+- **`json-cursor`**: adds `serde`/`serde_json` 1.x (`version = "=1"` is the 1.x
+  range, not a pin), `default-features = false`, `std` on serde_json, and the
+  `json_cursor` module — `focus(&serde_json::Value, &[PathStep])` navigation.
 - **`cbor-cursor`**: std-only (no crates); adds `cbor_cursor::focus` over the
   canonical-CBOR `Item` tree (canonical rules: map keys sorted by encoded
   bytes, minimal-width integer heads, float64).
@@ -192,15 +202,15 @@ uses `core::PathStep::{Key(String), Index(usize)}`.
 
 - Default build: `std` only; no dependencies; `#![forbid(unsafe_code)]`; no
   filesystem or network access in library code.
-- `json-cursor` deps are pinned with `=1` (exact major-and-minor per semver
-  semantics of `=1`): serde `=1`, serde_json `=1`, only reachable behind the
-  feature flag.
+- `json-cursor` deps are `serde`/`serde_json` `=1` (Cargo 1.x range, currently
+  resolving 1.0.x). Only reachable behind the feature flag. Not a pin.
 
 ## Verify
 
 ```sh
 cargo build --no-default-features   # std-only core
 cargo build --all-features          # + json-cursor + cbor-cursor
-cargo test                          # full suite
-cargo clippy --all-targets -- -D warnings
+cargo test                          # default suite (no cursor features)
+cargo test --all-features           # + json-cursor + cbor-cursor tests
+cargo clippy --all-targets --all-features -- -D warnings
 ```

@@ -269,3 +269,15 @@ fn debug_ids() {
     println!("spans {:?}", doc.index.spans());
     println!("children0 {:?}", doc.index.direct_children(0));
 }
+
+#[test]
+fn content_id_matches_fips_180_4_empty_and_abc() {
+    assert_eq!(
+        content_id(b""),
+        "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    );
+    assert_eq!(
+        content_id(b"abc"),
+        "sha256:ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+    );
+}

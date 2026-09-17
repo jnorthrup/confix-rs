@@ -7,8 +7,7 @@ license = "AGPL-3.0-only"
 
 [features]
 default = []
-# serde_json-based JSON navigation (focus on parsed JSON documents).
-# serde/serde_json are permitted ONLY behind this flag, pinned to exact versions.
+# serde_json navigation. serde/serde_json 1.x, only behind this flag.
 json-cursor = ["dep:serde", "dep:serde_json"]
 # Canonical CBOR navigation on the std-only Item tree (no crates).
 cbor-cursor = []

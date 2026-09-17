@@ -11,7 +11,8 @@
 //!   (port of `parse/confix/TypeDefOracle.kt` + `cursor/TypeSubsumption.kt`).
 //!
 //! No TrikeShed `Facets`/`Series⇔`/`Join` machinery — plain Rust structs/enums.
-//! Default build: std only. `json-cursor` feature adds serde/serde_json (pinned `=1`).
+//! Default build: std only. `json-cursor` adds optional serde/serde_json 1.x.
+#![doc = include_str!("../docs/navigation.md")]
 
 pub mod core;
 pub mod item;
